@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { DataState } from "./interface";
 import EditIcon from "@mui/icons-material/Edit";
 import banner from "./assets/banner.jpg";
-import emailjs from "@emailjs/browser";
+// import emailjs from "@emailjs/browser";
 import "./App.css";
 
 const StyledMenuItem = styled(MenuItem)<MenuItemProps>(({ theme }) => ({
