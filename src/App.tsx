@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { DataState } from "./interface";
 import EditIcon from "@mui/icons-material/Edit";
 import banner from "./assets/banner.jpg";
+import emailjs from "@emailjs/browser";
 import "./App.css";
 
 const StyledMenuItem = styled(MenuItem)<MenuItemProps>(({ theme }) => ({
@@ -138,6 +139,11 @@ const App = () => {
                             </InputAdornment>
                           ),
                         }}
+                        type="number"
+                        inputProps={{
+                          inputMode: "numeric",
+                          pattern: "([0-9])",
+                        }}
                       />
                       {error?.message && (
                         <FormHelperText error>{error.message}</FormHelperText>
@@ -146,6 +152,7 @@ const App = () => {
                   )}
                 />
               </Box>
+
               {/* address */}
               <Box>
                 <Typography variant="body2">
@@ -197,12 +204,6 @@ const App = () => {
                 <Controller
                   control={control}
                   name="isKnown"
-                  // rules={{
-                  //   required: {
-                  //     value: true,
-                  //     message: "Ca làm việc không được để trống!",
-                  //   },
-                  // }}
                   render={({
                     field: { onChange, value },
                     fieldState: { error },
@@ -264,6 +265,9 @@ const App = () => {
                         <StyledMenuItem value="Bạn bè giới thiệu">
                           Bạn bè giới thiệu
                         </StyledMenuItem>
+                        <StyledMenuItem value="Không kênh nào">
+                          Không kênh nào
+                        </StyledMenuItem>
                       </Select>
 
                       {error?.message && (
@@ -282,12 +286,6 @@ const App = () => {
                 <Controller
                   control={control}
                   name="brand"
-                  // rules={{
-                  //   required: {
-                  //     value: true,
-                  //     message: "Địa chỉ không được để trống!",
-                  //   },
-                  // }}
                   render={({ field: { onChange }, fieldState: { error } }) => (
                     <Box>
                       <TextField
@@ -317,10 +315,7 @@ const App = () => {
                 />
               </Box>
               <Stack direction="row" justifyContent="center" mt={3} mb={10}>
-                <Button
-                  // sx={{ backgroundColor: "primary.main" }}
-                  variant="contained"
-                >
+                <Button variant="contained" type="submit">
                   Gửi
                 </Button>
               </Stack>
