@@ -11,7 +11,7 @@ import {
   Select,
   styled,
 } from "@mui/material";
-import { useState } from "react";
+// import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { DataState } from "./interface";
@@ -37,7 +37,7 @@ const App = () => {
     mode: "onTouched",
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = (data: DataState) => {
     console.log(data);
@@ -74,10 +74,7 @@ const App = () => {
                       message: "Họ và tên không được để trống!",
                     },
                   }}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
+                  render={({ field: { onChange }, fieldState: { error } }) => (
                     <Box>
                       <TextField
                         sx={{
@@ -120,10 +117,7 @@ const App = () => {
                       message: "Số điện thoại không được để trống!",
                     },
                   }}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
+                  render={({ field: { onChange }, fieldState: { error } }) => (
                     <Box>
                       <TextField
                         sx={{
@@ -165,10 +159,7 @@ const App = () => {
                       message: "Địa chỉ không được để trống!",
                     },
                   }}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
+                  render={({ field: { onChange }, fieldState: { error } }) => (
                     <Box>
                       <TextField
                         sx={{
@@ -296,10 +287,7 @@ const App = () => {
                   //     message: "Địa chỉ không được để trống!",
                   //   },
                   // }}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
+                  render={({ field: { onChange }, fieldState: { error } }) => (
                     <Box>
                       <TextField
                         sx={{
