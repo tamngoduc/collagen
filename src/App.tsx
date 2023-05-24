@@ -16,6 +16,7 @@ import { Controller } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { DataState } from "./interface";
 import EditIcon from "@mui/icons-material/Edit";
+import banner from "./assets/banner.jpg";
 import "./App.css";
 
 const StyledMenuItem = styled(MenuItem)<MenuItemProps>(({ theme }) => ({
@@ -45,7 +46,7 @@ const App = () => {
 
   return (
     <>
-      <img src="/src/assets/banner.jpg" alt="VITALBEAUTIE" width="100%" />
+      <img src={banner} alt="VITALBEAUTIE" width="100%" />
 
       <Box mt={3} mx={4}>
         <Box textAlign="center">
