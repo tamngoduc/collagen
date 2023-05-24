@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { DataState } from "./interface";
 import EditIcon from "@mui/icons-material/Edit";
 import banner from "./assets/banner.jpg";
-// import emailjs from "@emailjs/browser";
+import emailjs from "@emailjs/browser";
 import "./App.css";
 
 const StyledMenuItem = styled(MenuItem)<MenuItemProps>(({ theme }) => ({
@@ -43,6 +43,57 @@ const App = () => {
 
   const onSubmit = (data: DataState) => {
     console.log(data);
+
+    const form = document.createElement("form");
+    form.style.display = "none"; // Hide the form element
+
+    const nameInput = document.createElement("input");
+    nameInput.name = "name";
+    nameInput.value = data.name;
+    form.appendChild(nameInput);
+
+    const phoneInput = document.createElement("input");
+    phoneInput.name = "phone";
+    phoneInput.value = data.phone;
+    form.appendChild(phoneInput);
+
+    const addressInput = document.createElement("input");
+    addressInput.name = "address";
+    addressInput.value = data.address;
+    form.appendChild(addressInput);
+
+    const isKnowInput = document.createElement("input");
+    isKnowInput.name = "isKnow";
+    isKnowInput.value = data.isKnown || "";
+    form.appendChild(isKnowInput);
+
+    const sourceInput = document.createElement("input");
+    sourceInput.name = "source";
+    sourceInput.value = data.source || "";
+    form.appendChild(sourceInput);
+
+    const brandInput = document.createElement("input");
+    brandInput.name = "brand";
+    brandInput.value = data.brand || "";
+    form.appendChild(brandInput);
+
+    document.body.appendChild(form);
+
+    emailjs
+      .sendForm(
+        "service_7llyhhb",
+        "template_2tvdlpn",
+        form,
+        "BsqW1uiHQ17dEgKiA"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
   };
 
   return (

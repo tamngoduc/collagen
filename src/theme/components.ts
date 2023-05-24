@@ -4,7 +4,7 @@ export const components: Components<Omit<Theme, "components">> | undefined = {
   MuiButton: {
     defaultProps: {
       // color: "primary",
-      // disableTouchRipple: true,
+      disableTouchRipple: true,
       sx: {
         typography: (theme) => ({ ...theme.typography.button }),
         borderRadius: 36,
