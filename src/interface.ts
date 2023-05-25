@@ -2,7 +2,9 @@ export interface DataState {
   name: string;
   phone: string;
   address: string;
-  isKnown?: string;
-  source?: string;
-  brand?: string;
+  age: string;
+  gender: string;
+  isKnown: string;
+  source: string;
+  brand: string;
 }

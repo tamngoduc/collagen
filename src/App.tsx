@@ -10,8 +10,9 @@ import {
   Button,
   Select,
   styled,
+  Modal,
 } from "@mui/material";
-// import { useState } from "react";
+import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { DataState } from "./interface";
@@ -26,12 +27,29 @@ const StyledMenuItem = styled(MenuItem)<MenuItemProps>(({ theme }) => ({
   lineHeight: theme.typography.subtitle.lineHeight,
 }));
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "#dfd2d6",
+  color: "#302e2f",
+  border: "2px solid",
+  borderColor: "primary.light",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};
+
 const App = () => {
   const { handleSubmit, control } = useForm<DataState>({
     defaultValues: {
       name: "",
       phone: "",
       address: "",
+      age: "",
+      gender: "",
       isKnown: "",
       source: "",
       brand: "",
@@ -39,13 +57,17 @@ const App = () => {
     mode: "onTouched",
   });
 
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleCloseModal = () => setOpenModal(false);
 
   const onSubmit = (data: DataState) => {
     console.log(data);
 
     const form = document.createElement("form");
-    form.style.display = "none"; // Hide the form element
+    form.style.display = "none";
 
     const nameInput = document.createElement("input");
     nameInput.name = "name";
@@ -79,21 +101,21 @@ const App = () => {
 
     document.body.appendChild(form);
 
-    emailjs
-      .sendForm(
+    setIsLoading(true);
+    try {
+      emailjs.sendForm(
         "service_7llyhhb",
         "template_2tvdlpn",
         form,
         "BsqW1uiHQ17dEgKiA"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
       );
+
+      setIsLoading(false);
+      setOpenModal(true);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
   };
 
   return (
@@ -148,6 +170,97 @@ const App = () => {
                           ),
                         }}
                       />
+                      {error?.message && (
+                        <FormHelperText error>{error.message}</FormHelperText>
+                      )}
+                    </Box>
+                  )}
+                />
+              </Box>
+
+              {/* age */}
+              <Box>
+                <Typography variant="body2">
+                  Tuổi<span style={{ color: "#f00" }}>*</span>:
+                </Typography>
+                <Controller
+                  control={control}
+                  name="age"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Tuổi không được để trống!",
+                    },
+                  }}
+                  render={({ field: { onChange }, fieldState: { error } }) => (
+                    <Box>
+                      <TextField
+                        sx={{
+                          "& ::placeholder": {
+                            fontSize: 16,
+                          },
+                        }}
+                        fullWidth
+                        onChange={onChange}
+                        placeholder="Nhập tại đây"
+                        size="small"
+                        error={!!error}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <EditIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                        type="number"
+                        inputProps={{
+                          inputMode: "numeric",
+                          pattern: "([0-9])",
+                        }}
+                      />
+                      {error?.message && (
+                        <FormHelperText error>{error.message}</FormHelperText>
+                      )}
+                    </Box>
+                  )}
+                />
+              </Box>
+
+              {/* gender */}
+              <Box>
+                <Typography variant="button">
+                  Giới tính<span style={{ color: "#f00" }}>*</span>:
+                </Typography>
+                <Controller
+                  control={control}
+                  name="gender"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Giới tính không được để trống!",
+                    },
+                  }}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <Box>
+                      <Select
+                        sx={{
+                          typography: (theme) => ({
+                            ...theme.typography.body2,
+                          }),
+                        }}
+                        value={value ? value : ""}
+                        onChange={onChange}
+                        fullWidth
+                        size="small"
+                        error={!!error}
+                      >
+                        <StyledMenuItem value="Nam">Nam</StyledMenuItem>
+                        <StyledMenuItem value="Nữ">Nữ</StyledMenuItem>
+                      </Select>
+
                       {error?.message && (
                         <FormHelperText error>{error.message}</FormHelperText>
                       )}
@@ -251,10 +364,17 @@ const App = () => {
               <Box>
                 <Typography variant="button">
                   Bạn đã bao giờ nghe đến VITAL BEAUTIE chưa?
+                  <span style={{ color: "#f00" }}>*</span>
                 </Typography>
                 <Controller
                   control={control}
                   name="isKnown"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Mục này không được để trống!",
+                    },
+                  }}
                   render={({
                     field: { onChange, value },
                     fieldState: { error },
@@ -288,10 +408,17 @@ const App = () => {
               <Box>
                 <Typography variant="button">
                   Bạn biết đến VITAL BEAUTIE qua kênh nào?
+                  <span style={{ color: "#f00" }}>*</span>
                 </Typography>
                 <Controller
                   control={control}
                   name="source"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Mục này không được để trống!",
+                    },
+                  }}
                   render={({
                     field: { onChange, value },
                     fieldState: { error },
@@ -317,7 +444,7 @@ const App = () => {
                           Bạn bè giới thiệu
                         </StyledMenuItem>
                         <StyledMenuItem value="Không kênh nào">
-                          Không kênh nào
+                          Không kênh nào kể trên
                         </StyledMenuItem>
                       </Select>
 
@@ -333,10 +460,17 @@ const App = () => {
               <Box>
                 <Typography variant="body2">
                   Bạn đang sử dụng Collagen của thương hiệu nào?
+                  <span style={{ color: "#f00" }}>*</span>
                 </Typography>
                 <Controller
                   control={control}
                   name="brand"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Mục này không được để trống!",
+                    },
+                  }}
                   render={({ field: { onChange }, fieldState: { error } }) => (
                     <Box>
                       <TextField
@@ -366,14 +500,26 @@ const App = () => {
                 />
               </Box>
               <Stack direction="row" justifyContent="center" mt={3} mb={10}>
-                <Button variant="contained" type="submit">
-                  Gửi
+                <Button variant="contained" type="submit" disabled={isLoading}>
+                  {isLoading ? "Đang xử lý" : "Gửi"}
                 </Button>
               </Stack>
             </Stack>
           </form>
         </Box>
       </Box>
+
+      {/* noti modal */}
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Box sx={style}>
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            Cảm ơn bạn đã điền thông tin!
+          </Typography>
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            VITAL BEAUTIE sẽ gửi quà đến bạn trong vài ngày nữa nhé!
+          </Typography>
+        </Box>
+      </Modal>
     </>
   );
 };
