@@ -46,10 +46,10 @@ const App = () => {
   const { handleSubmit, control } = useForm<DataState>({
     defaultValues: {
       name: "",
-      phone: "",
-      address: "",
       age: "",
       gender: "",
+      phone: "",
+      address: "",
       isKnown: "",
       source: "",
       brand: "",
@@ -64,8 +64,6 @@ const App = () => {
   const handleCloseModal = () => setOpenModal(false);
 
   const onSubmit = (data: DataState) => {
-    console.log(data);
-
     const form = document.createElement("form");
     form.style.display = "none";
 
@@ -73,6 +71,16 @@ const App = () => {
     nameInput.name = "name";
     nameInput.value = data.name;
     form.appendChild(nameInput);
+
+    const ageInput = document.createElement("input");
+    ageInput.name = "age";
+    ageInput.value = data.age;
+    form.appendChild(ageInput);
+
+    const genderInput = document.createElement("input");
+    genderInput.name = "gender";
+    genderInput.value = data.gender;
+    form.appendChild(genderInput);
 
     const phoneInput = document.createElement("input");
     phoneInput.name = "phone";
